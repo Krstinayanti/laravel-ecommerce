@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\ReviewProductUser;
+use App\ProductReviews;
+use App\User;
 use Illuminate\Http\Request;
 use DB;
 // use Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Notification;
+
 class ReviewController extends Controller
 {
     public function index()
@@ -20,8 +25,6 @@ class ReviewController extends Controller
             ON `product_reviews`.`user_id`=users.`id`"
             );
             $product_response= DB::table('response')->get();
-
-
 
         // $product_reviews = json_decode($product_reviews,true)  ;
 
@@ -45,10 +48,13 @@ class ReviewController extends Controller
 
           'review_id' => $id,
           'admin_id' => 1,
-
           'content' => $request->response
 
       ]);
+
+      $data = ProductReviews::whereId($id)->first();
+
+      Notification::send(User::whereId($data->user_id)->first(), new ReviewProductUser());
 
       return redirect('review')->with(['success' => 'Kategori Diperbaharui!']);
     }

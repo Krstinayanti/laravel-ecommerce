@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Admin;
+use App\Notifications\BuktiPembayaran;
+use App\Notifications\ReviewProducts;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Notification;
+
 class ProfilController extends Controller
 {
     public function index()
@@ -68,6 +73,9 @@ class ProfilController extends Controller
       DB::table('transactions')
           ->where('id', $transaksi_id)
           ->update(['proof_of_payment' => $filename]);
+
+        Notification::send(Admin::whereId(1)->first(), new BuktiPembayaran());
+
       return redirect('profil')->with(['success' => 'Kategori Diperbaharui!']);
     }
     public function review(Request $request)
@@ -81,6 +89,9 @@ class ProfilController extends Controller
           'content' => $request->review
 
       ]);
+
+      Notification::send(Admin::whereId(1)->first(), new ReviewProducts());
+
         return redirect('produkdetail/'.$request->product_id)->with(['success' => 'Kategori Diperbaharui!']);
     }
 

@@ -36,9 +36,11 @@ Route::post('/cart/cekongkir', 'CartController@cekongkir');
 Route::post('/cart/detail', 'CartController@detail');
 Route::post('/cart/proses', 'CartController@proses');
 Route::get('/profil', 'ProfilController@index');
+Route::get('/profil/notification', 'NotificationController@index')->name('notification.user');
 Route::get('/profil/cancel/{id}', 'ProfilController@cancel');
 Route::post('/profil/buktibayar/{id}', 'ProfilController@buktibayar');
 Route::post('/profil/review/{id}', 'ProfilController@review');
+Route::get('/chartJson', 'AdminController@chart');
 //----CRUD DATA PRODUCT DAN MIDDLEWARE---
 Route::group(['middleware'=>'admin'], function (){
     Route::get('/products', 'ProductsController@index');//untuk mengarahkan ke /products

@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Admin;
+use App\Notifications\NewTransaction;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Illuminate\Support\Facades\Notification;
+
 class CartController extends Controller
 {
     public function index()
@@ -317,6 +322,8 @@ class CartController extends Controller
             'courier_id' => $data['courier_id'],
             'status' => $data['status']
         ]);
+
+        Notification::send(Admin::whereId(1)->first(), new NewTransaction());
         // $id_transaction=5;
         // echo "<pre>";
         // print_r($cart);
