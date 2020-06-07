@@ -61,7 +61,7 @@
 </div>
 @stop
 @php
-    $labels = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+    $labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     $dataChart = [];
     $dataSet = [];
     foreach ($reportBulanan as $data) {
